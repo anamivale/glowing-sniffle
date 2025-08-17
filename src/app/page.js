@@ -16,7 +16,7 @@ export default function Home() {
             and support the next generation of leaders.
           </p>
           <div className="flex gap-4">
-            <Link href="/home">
+            <Link href="/register">
               <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
                 Join Now
               </button>
