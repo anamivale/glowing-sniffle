@@ -81,9 +81,9 @@ export default function LoginPage() {
                 </div>
 
                 <p className="mt-6 text-sm text-white-600">
-                    Already have an account?{" "}
-                    <a href="/login" className="underline text-blue">
-                        Sign in
+                    Do not have an account?{" "}
+                    <a href="/register" className="underline text-blue">
+                        Sign up
                     </a>
                 </p>
             </div>
