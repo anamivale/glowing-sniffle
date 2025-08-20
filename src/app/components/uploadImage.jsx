@@ -1,23 +1,22 @@
 
-async function uploadImage(file, supabase, name) {
-    const fileExt = file.name.split('.').pop();
-    const filename = `${name}_${Date.now()}.${fileExt}`;
-    
+async function uploadImage(file, supabase, userId) {
+  const fileExt = file.name.split('.').pop();
+  const filename = `${userId}/avatar.${fileExt}`; // folder = userId
+  
+  const { data, error } = await supabase.storage
+    .from('avatars')
+    .upload(filename, file, { upsert: true });
 
-    const { data, error } = await supabase.storage
-        .from('avatars')
-        .upload(filename, file);
+  if (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
 
-    if (error) {
-        console.error('Error uploading image:', error);
-        return null;
-    }
+  const { data: urlData } = supabase.storage
+    .from('avatars')
+    .getPublicUrl(filename);
 
-    const { data: urlData } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filename);
-
-    return urlData.publicUrl;
+  return urlData.publicUrl;
 }
 
-export default uploadImage
+export default uploadImage;
