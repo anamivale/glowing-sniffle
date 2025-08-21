@@ -34,25 +34,20 @@ function Page() {
   }
 
   useEffect(() => {
-    // Get initial session
     const getInitialSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
         if (error) {
-          console.error('Error getting session:', error)
           setError('Failed to get user session')
           router.push('/login')
           return
         }
-
         if (!session) {
           router.push('/login')
           return
         }
-
         setUser(session.user)
       } catch (err) {
-        console.error('Unexpected error:', err)
         setError('An unexpected error occurred')
         router.push('/login')
       } finally {
@@ -60,7 +55,6 @@ function Page() {
       }
     }
 
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === 'SIGNED_OUT' || !session) {
@@ -74,8 +68,6 @@ function Page() {
     )
 
     getInitialSession()
-
-    // Cleanup subscription on unmount
     return () => {
       subscription.unsubscribe()
     }
@@ -88,48 +80,41 @@ function Page() {
       [name]: type === "checkbox" ? checked : value,
     }))
   }
-const handleSubmit = async (e) => {
-    e.preventDefault()
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     if (!user) {
       setError('User not authenticated')
       return
     }
     let imageUrl = null
-
     try {
       setLoading(true)
-      if (file) { 
+      if (file) {
         imageUrl = await uploadImage(file, supabase, user.id)
       }
-
       const { error } = await supabase.from("profiles").insert({
         user_id: user.id,
         ...formData,
-      profile_picture: imageUrl
+        profile_picture: imageUrl
       })
-
       if (error) {
-        console.error('Profile creation error:', error)
         setError('Failed to create profile. Please try again.')
         return
       }
-
       alert("Profile created successfully!")
       router.push("/")
     } catch (err) {
-      console.error('Unexpected error:', err)
       setError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  // Show loading spinner while checking authentication
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen bg-black text-white p-6 flex items-center justify-center">
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
             <p>Loading...</p>
@@ -139,16 +124,15 @@ const handleSubmit = async (e) => {
     )
   }
 
-  // Show error if there's an authentication error
   if (error) {
     return (
       <Layout>
-        <div className="min-h-screen bg-black text-white p-6 flex items-center justify-center">
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-500 mb-4">{error}</p>
             <button
               onClick={() => router.push('/profile')}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-white text-black hover:bg-gray-200 px-4 py-2 rounded"
             >
               Retry
             </button>
@@ -158,16 +142,15 @@ const handleSubmit = async (e) => {
     )
   }
 
-  // Don't render the form if user is not authenticated
   if (!user) {
     return (
       <Layout>
-        <div className="min-h-screen bg-black text-white p-6 flex items-center justify-center">
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
           <div className="text-center">
             <p className="mb-4">Please log in to access your profile.</p>
             <button
               onClick={() => router.push('/login')}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-white text-black hover:bg-gray-200 px-4 py-2 rounded"
             >
               Go to Login
             </button>
@@ -179,69 +162,77 @@ const handleSubmit = async (e) => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-black text-white p-6 center w-full">
-        <h1 className="text-2xl mb-6 font-bold">Profile Details</h1>
+      <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl bg-black border border-white rounded-2xl p-8 shadow-lg">
+          <h1 className="text-3xl font-bold mb-6 text-center">Profile Details</h1>
 
-        {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="bg-red-500 text-white p-3 rounded mb-4">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input type="text" name="first_name" placeholder="First Name" value={formData.first_name} onChange={handleChange}  className="w-xl border p-2 rounded " /><br />
-          <input type="text" name="last_name" placeholder="Last Name"  value={formData.last_name} onChange={handleChange} className="w-xl border p-2 rounded " /><br />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input type="text" name="first_name" placeholder="First Name" value={formData.first_name} onChange={handleChange} className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" />
+            <input type="text" name="last_name" placeholder="Last Name" value={formData.last_name} onChange={handleChange} className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" />
 
-          <select className="w-xl border p-2 rounded " name="graduation_year" value={formData.graduation_year} onChange={handleChange} >
-            <option value="">Select Graduation Year </option>
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}   
-            <ArrowDownIcon className="h-10 w-10 text-white" />
-          </select><br />
+            <div>
+              <select name="graduation_year" value={formData.graduation_year} onChange={handleChange} className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white">
+                <option value="">Select Graduation Year</option>
+                {years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+            </div>
 
-          <select name="Stream" className="w-xl border p-2 rounded " value={formData.Stream} onChange={handleChange}>
-            <option value="">Select Stream </option>
-            <option value="Central">Central</option>
-            <option value="South">South</option>
-            <option value="North">North</option>
-            <ArrowDownIcon className="h-10 w-10" />
-          </select><br />
+            <div>
+              <select name="Stream" value={formData.Stream} onChange={handleChange} className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white">
+                <option value="">Select Stream</option>
+                <option value="Central">Central</option>
+                <option value="South">South</option>
+                <option value="North">North</option>
+              </select>
+            </div>
 
-          <input type="text" name="current_occupation" value={formData.current_occupation} onChange={handleChange} placeholder="Current Occupation" className="w-xl border p-2 rounded " /><br />
-          <input type="text" name="location"  value={formData.location} onChange={handleChange} placeholder="Location" className="w-xl border p-2 rounded " /><br />
-          <input type="text" name="phone"  value={formData.phone} onChange={handleChange} placeholder="Phone" className="w-xl border p-2 rounded " /><br />
+            <input type="text" name="current_occupation" value={formData.current_occupation} onChange={handleChange} placeholder="Current Occupation" className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" />
+            <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" />
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" />
 
-          <textarea placeholder="Bio"  name="bio" value={formData.bio} onChange={handleChange} className="w-xl border p-2 rounded "></textarea><br />
+            <textarea name="bio" value={formData.bio} onChange={handleChange} placeholder="Bio" className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white" rows={4}></textarea>
 
-          <input type="file" onChange={handleFileChange} name="file" accept="image/*" className="w-md border p-2 rounded  " /><br />
+            <div>
+              <label htmlFor="file" className="block text-sm font-semibold mb-2">
+                Profile Picture
+              </label>
+              <input
+                type="file"
+                id="file"
+                onChange={handleFileChange}
+                name="file"
+                accept="image/*"
+                className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white"
+              />
+            </div>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="is_public" checked={formData.is_public} onChange={handleChange} className="h-4 w-4" />
+              <span>Make Profile Public</span>
+            </label>
 
-         
-          <label className="flex items-center gap-2 mb-4">
-            <input type="checkbox" name="is_public" checked={formData.is_public} onChange={handleChange} />
-            Make Profile Public
-          </label>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 disabled:cursor-not-allowed text-white p-2 rounded flex items-center justify-center"
-          >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Saving...
-              </>
-            ) : (
-              'Save Profile'
-            )}
-          </button>
-        </form>
+            <button type="submit" disabled={loading} className="w-full bg-white text-black hover:bg-gray-200 disabled:bg-gray-500 disabled:cursor-not-allowed font-semibold py-3 rounded-lg transition">
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
+                  Saving...
+                </div>
+              ) : (
+                'Save Profile'
+              )}
+            </button>
+          </form>
+        </div>
       </div>
     </Layout>
   )
 }
 
 export default Page
-
-
