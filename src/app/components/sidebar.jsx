@@ -11,7 +11,7 @@ import {
 export default function Sidebar() {
 
   const pathname = (usePathname() || "").replace(/\/$/, "");
-  const isEventsPage = pathname === "/activities";
+  const isEventsPage = pathname === "/events";
 
 
   return (
@@ -22,7 +22,7 @@ export default function Sidebar() {
         <li className="p-4 border-b border-gray-100/20">
           {
             isEventsPage ? (
-              <h2 className="text-lg font-bold mb-4 text-center">Activities</h2>
+              <h2 className="text-lg font-bold mb-4 text-center">Events</h2>
 
             ) : (
               <Link href="/" className="flex w-full  pb-4 items-center">
@@ -43,8 +43,8 @@ export default function Sidebar() {
           </Link>
         </li>
         <li className="p-4 border-b border-gray-100/20">
-          <Link href="/activities" className="flex w-full  pb-4 items-center">
-            <UserGroupIcon className="h-6 w-6 mr-2" /> Activities
+          <Link href="/events" className="flex w-full  pb-4 items-center">
+            <UserGroupIcon className="h-6 w-6 mr-2" /> Events
           </Link>
         </li>
         <li className="p-4 border-b border-gray-100/20">
