@@ -1,4 +1,6 @@
-export default function GetUser(setError, setLoading, setUser, supabase) {
+import { useEffect } from "react"
+
+export default function GetUser(setError, setLoading, setUser, supabase, router) {
     useEffect(() => {
         const getInitialSession = async () => {
             try {
