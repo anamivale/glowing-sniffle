@@ -29,13 +29,14 @@ function CreateEvents() {
           <form className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-semibold mb-2">
+              <label htmlFor="title" className="block text-sm font-semibold mb-2" >
                 Event Title
               </label>
               <input 
                 type="text" 
                 id="title" 
                 name="title" 
+                onChange={handleChange}
                 required
                 className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
                 placeholder="Enter event title"
@@ -50,6 +51,7 @@ function CreateEvents() {
               <textarea 
                 id="description" 
                 name="description" 
+                onChange={handleChange}
                 required
                 rows={4}
                 className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
@@ -60,12 +62,12 @@ function CreateEvents() {
             {/* Type */}
             <div>
               <label htmlFor="type" className="block text-sm font-semibold mb-2">
-                Event Type
+                Activity Type
               </label>
               <select 
                 name="type" 
                 id="type"
-                value={eventType}
+                value={activityType}
                 onChange={(e) => setActivityType(e.target.value)}
                 className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
               >
@@ -87,6 +89,7 @@ function CreateEvents() {
                     type="date" 
                     id="date" 
                     name="date" 
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
                   />
@@ -100,6 +103,7 @@ function CreateEvents() {
                     type="time" 
                     id="start_time" 
                     name="start_time" 
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
                   />
@@ -111,6 +115,7 @@ function CreateEvents() {
                   </label>
                   <input 
                     type="time" 
+                    onChange={handleChange}
                     id="end_time" 
                     name="end_time" 
                     required
