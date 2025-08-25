@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import Layout from "../components/Layout"
-import { ArrowDownIcon } from "@heroicons/react/24/solid"
 import { getBrowserSupabase } from "@/lib/supabas"
 import { useRouter } from "next/navigation"
 import uploadImage from "../components/uploadImage.jsx"
@@ -34,7 +33,7 @@ function Page() {
     }
   }
 
-  GetUser(setError,setLoading, setUser,supabase)
+  GetUser(setError,setLoading, setUser,supabase, router)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
