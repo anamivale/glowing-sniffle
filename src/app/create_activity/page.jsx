@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import { useRouter } from 'next/navigation';
 import GetUser from '../components/getUser';
 import { getBrowserSupabase } from '@/lib/supabas';
+import { validateEventDate, validateEventDuration } from '../components/validate_datetime';
 
 function CreateEvents() {
   const router = useRouter()
@@ -11,6 +12,9 @@ function CreateEvents() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [timeerror, setTimerror] = useState(null)
+  const [dateerror, setDAterror] = useState(null)
+
   const [activityType, setActivityType] = useState("")
   const [formData, setFormData] = useState({
     title: "",
@@ -26,13 +30,25 @@ function CreateEvents() {
       ...prev,
       [name]: value,
     }))
+    if (formData.event_date != null) {
+      const dateErr = validateEventDate(formData.event_date)
+      if (dateErr instanceof Error) {
+        setDAterror(dateErr.message)
+      }
+    }
+    if (formData.end_time != null && formData.start_time != null) {
+      const TimeErr = validateEventDuration(formData.start_time, formData.end_time)
+      if (TimeErr instanceof Error) {
+        setTimerror(TimeErr.message)
+      }
+    }
+
   }
   GetUser(setError, setLoading, setUser, supabase, router)
+  const isDisabled = error||dateerror||timeerror;
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData);
-    
     if (!user) {
       setError('User not authenticated')
       return
@@ -57,7 +73,7 @@ function CreateEvents() {
     }
   }
 
-  if (loading){
+  if (loading) {
     return (
       <Layout>
         <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -70,12 +86,12 @@ function CreateEvents() {
     )
   }
 
-  if (error){
+  if (error) {
     <Layout>
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <p>{error}</p>
-          <button onClick={()=> router.push('/create-activity')}> Retry</button>
+          <button onClick={() => router.push('/create-activity')}> Retry</button>
         </div>
       </div>
     </Layout>
@@ -91,7 +107,7 @@ function CreateEvents() {
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-semibold mb-2" >
-                Event Title
+                Activity Title
               </label>
               <input
                 type="text"
@@ -107,7 +123,7 @@ function CreateEvents() {
             {/* content */}
             <div>
               <label htmlFor="content" className="block text-sm font-semibold mb-2">
-                Event content
+                Activity description
               </label>
               <textarea
                 id="content"
@@ -154,6 +170,7 @@ function CreateEvents() {
                     required
                     className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
                   />
+                  <p className='text-red-500'>{dateerror}</p>
                 </div>
 
                 <div>
@@ -182,12 +199,15 @@ function CreateEvents() {
                     required
                     className="w-full px-4 py-2 bg-black border border-white rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
                   />
+                  <p className='text-red-500'>{timeerror}</p>
+
                 </div>
               </div>
             )}
 
             <div className="text-center">
               <button
+                disabled={isDisabled}
                 type="submit"
                 className="px-6 py-2 rounded-lg font-semibold bg-white text-black hover:bg-gray-200 transition"
               >
