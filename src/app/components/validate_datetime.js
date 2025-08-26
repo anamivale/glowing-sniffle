@@ -1,4 +1,4 @@
-export default function validateEventDate(date) {
+export  function validateEventDate(date) {
     const current_year = new Date(Date.now())
     const event_year = new Date(date)
     if (event_year < current_year) {
@@ -7,7 +7,7 @@ export default function validateEventDate(date) {
 
 }
 
-export default function validateEventTime(startTime, endTime) {
+export  function validateEventDuration(startTime, endTime) {
     const [sh, sm] = startTime.split(":").map(Number)
     const [eh, em] = endTime.split(":").map(Number)
 
@@ -15,7 +15,7 @@ export default function validateEventTime(startTime, endTime) {
     const EndTimeInMinutes = (eh * 60) + em
 
     if (startTimeInMinutes + 30 > EndTimeInMinutes) {
-        return new Error("An event takes atleast 30 minutes")
+        return new Error("invalid duration")
     }
 
 }
