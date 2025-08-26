@@ -34,12 +34,16 @@ function CreateEvents() {
       const dateErr = validateEventDate(formData.event_date)
       if (dateErr instanceof Error) {
         setDAterror(dateErr.message)
+      } else{
+        setDAterror(null)
       }
     }
     if (formData.end_time != null && formData.start_time != null) {
       const TimeErr = validateEventDuration(formData.start_time, formData.end_time)
       if (TimeErr instanceof Error) {
         setTimerror(TimeErr.message)
+      } else {
+        setTimerror(null)
       }
     }
 
