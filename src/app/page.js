@@ -1,14 +1,22 @@
+"use client";
 import Link from "next/link";
 import { BriefcaseIcon, CalendarDaysIcon, HeartIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Layout from "./components/Layout";
+import GetUsers from "./components/getUsers";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  
+
+
+  const users = GetUsers()
+  console.log(users);
+
+
+
   return (
     <Layout>
 
       <main className="min-h-screen bg-black text-white">
-        {/* Hero Section */}
         <section className="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-b from-black to-gray-900">
           <h1 className="text-5xl font-extrabold mb-6">Reconnect. Remember. Reignite.</h1>
           <p className="max-w-2xl text-lg text-gray-300 mb-8">
@@ -29,13 +37,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="py-16 px-8 grid md:grid-cols-4 gap-8 text-center">
-          <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
+          <Link href="/networking" className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
             <UsersIcon className="h-12 w-12 mx-auto text-white mb-4" />
             <h3 className="text-xl font-semibold">Networking</h3>
             <p className="text-gray-400 mt-2">Find classmates & mentors to grow together.</p>
-          </div>
+          </Link>
           <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
             <CalendarDaysIcon className="h-12 w-12 mx-auto text-white mb-4" />
             <h3 className="text-xl font-semibold">Events</h3>
