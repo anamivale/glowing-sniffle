@@ -2,7 +2,7 @@ import Link from "next/link"
 import { HomeIcon, BellIcon, ChatBubbleLeftIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 function Navbar() {
     return (
-        <nav className='bg-blue-900 dark:text-white p-2 flex border-b justify-between border-gray-100/20' >
+        <nav className=' dark:text-white p-2 flex border-b justify-between border-gray-100/20' >
             <div className="left">
                 <Link href="/" className='mr-2'><HomeIcon className="h-6 w-6 " /></Link>
 
