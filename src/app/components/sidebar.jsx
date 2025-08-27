@@ -15,7 +15,7 @@ export default function Sidebar() {
 
 
   return (
-    <aside className="w-1/5 bg-blue-900 text-white min-h-full">
+    <aside className="w-1/5  text-white min-h-full">
 
 
       <ul className="w-full">
