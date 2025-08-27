@@ -1,4 +1,3 @@
-// lib/supabaseClient.js
 import { createBrowserClient } from "@supabase/ssr"
 
 // For client-side usage (components, pages)
