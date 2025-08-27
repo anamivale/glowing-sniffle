@@ -7,12 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
 
-
-  const users = GetUsers()
-  console.log(users);
-
-
-
   return (
     <Layout>
 
