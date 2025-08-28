@@ -10,7 +10,7 @@ export default function GetUsers() {
       const supabase = getBrowserSupabase();
       const { data, error } = await supabase
         .from("profiles")
-        .select("first_name, last_name, graduation_year, Stream")
+        .select("first_name, last_name, graduation_year, Stream, profile_picture")
         .order("first_name");
 
       if (!error) setUsers(data);
