@@ -14,7 +14,7 @@ export default function RegisterPage() {
             email,
             password,
             options: {
-                emailRedirectTo: `${window.location.origin}/profile`
+                emailRedirectTo: `${window.location.origin}/create-profile`
             }
         });
         if (error) {
@@ -27,7 +27,7 @@ export default function RegisterPage() {
     const handleGoogleSignup = async () => {
         await supabase.auth.signInWithOAuth({
             provider: "google",
-            emailRedirectTo: `${window.location.origin}/profile`
+            emailRedirectTo: `${window.location.origin}/create-profile`
         });
     };
 
