@@ -2,13 +2,12 @@
 import Link from "next/link";
 import { BriefcaseIcon, CalendarDaysIcon, HeartIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Layout from "./components/Layout";
-import GetUsers from "./components/getUsers";
-import { useEffect, useState } from "react";
 
 export default function Home() {
 
   return (
     <Layout>
+
 
       <main className="min-h-screen bg-black text-white">
         <section className="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-b from-black to-gray-900">
