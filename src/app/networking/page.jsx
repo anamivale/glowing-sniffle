@@ -7,19 +7,6 @@ export default function MembersPage() {
     const [search, setSearch] = useState("");
 
 const users = GetUsers()
-
-    // Example members (replace with Supabase query or props)
-    const members = [
-        { id: 1, name: "Shane Lang", avatar: "https://i.pravatar.cc/50?u=shane", status: "online" },
-        { id: 2, name: "Sabrina Feest", avatar: "https://i.pravatar.cc/50?u=sabrina", status: "online" },
-        { id: 3, name: "Tyrone Schmidt", avatar: "https://i.pravatar.cc/50?u=tyrone", status: "offline" },
-        { id: 4, name: "Ms. Louis Nietzsche", avatar: "https://i.pravatar.cc/50?u=louis", status: "online" },
-        { id: 5, name: "Clarence Green", avatar: "https://i.pravatar.cc/50?u=clarence", status: "offline" },
-        { id: 6, name: "Kari Goodwin", avatar: "https://i.pravatar.cc/50?u=kari", status: "online" },
-        { id: 7, name: "Christy Kiehn", avatar: "https://i.pravatar.cc/50?u=christy", status: "online" },
-        { id: 8, name: "Raymond Mann", avatar: "https://i.pravatar.cc/50?u=raymond", status: "offline" },
-    ];
-
     const filteredMembers = users.filter((m) =>
         m.first_name.toLowerCase().includes(search.toLowerCase())||m.last_name.toLowerCase().includes(search.toLowerCase())
     );
