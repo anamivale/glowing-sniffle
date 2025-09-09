@@ -1,7 +1,14 @@
 "use client";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import { BriefcaseIcon, CalendarDaysIcon, HeartIcon, UsersIcon } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 import Layout from "./components/Layout";
+
+// Lazy load icons to reduce initial bundle size
+const BriefcaseIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.BriefcaseIcon })));
+const CalendarDaysIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.CalendarDaysIcon })));
+const HeartIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.HeartIcon })));
+const UsersIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.UsersIcon })));
 
 export default function Home() {
 
@@ -32,22 +39,30 @@ export default function Home() {
 
         <section className="py-16 px-8 grid md:grid-cols-4 gap-8 text-center">
           <Link href="/networking" className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
-            <UsersIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            <Suspense fallback={<div className="h-12 w-12 mx-auto bg-gray-700 rounded mb-4 animate-pulse" />}>
+              <UsersIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            </Suspense>
             <h3 className="text-xl font-semibold">Networking</h3>
             <p className="text-gray-400 mt-2">Find classmates & mentors to grow together.</p>
           </Link>
           <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
-            <CalendarDaysIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            <Suspense fallback={<div className="h-12 w-12 mx-auto bg-gray-700 rounded mb-4 animate-pulse" />}>
+              <CalendarDaysIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            </Suspense>
             <h3 className="text-xl font-semibold">Events</h3>
             <p className="text-gray-400 mt-2">Stay connected through reunions & activities.</p>
           </div>
           <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
-            <BriefcaseIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            <Suspense fallback={<div className="h-12 w-12 mx-auto bg-gray-700 rounded mb-4 animate-pulse" />}>
+              <BriefcaseIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            </Suspense>
             <h3 className="text-xl font-semibold">Career Support</h3>
             <p className="text-gray-400 mt-2">Explore opportunities & mentorship programs.</p>
           </div>
           <div className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition">
-            <HeartIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            <Suspense fallback={<div className="h-12 w-12 mx-auto bg-gray-700 rounded mb-4 animate-pulse" />}>
+              <HeartIcon className="h-12 w-12 mx-auto text-white mb-4" />
+            </Suspense>
             <h3 className="text-xl font-semibold">Give Back</h3>
             <p className="text-gray-400 mt-2">Contribute to scholarships & community projects.</p>
           </div>
