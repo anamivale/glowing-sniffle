@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
-import ErrorBoundary from "@/components/ErrorBoundary";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Lazy load components
 const Navbar = dynamic(() => import("./navbar"), {
