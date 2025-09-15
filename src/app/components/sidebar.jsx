@@ -5,11 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "./search";
 import {
   HomeIcon, BellIcon, ChatBubbleLeftIcon,
-  UserIcon, UserGroupIcon, PlusIcon
-} from '@heroicons/react/24/solid';
+  UserIcon, UserGroupIcon, PlusIcon, ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 import { getBrowserSupabase } from "@/lib/supabas";
 import { useState } from "react";
 import GetUser from "./getUser";
+import Button from "@/components/ui/Button";
 
 export default function Sidebar() {
 
@@ -24,7 +25,10 @@ export default function Sidebar() {
 
   // Fetch user session and handle authentication state changes
   GetUser(setError, setLoading, setUser, supabase, router);
-
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/login'); // Redirect to login page after logout
+  }
 
   return (
     <aside className="w-1/5 dark:text-white  min-h-full">
@@ -75,6 +79,17 @@ export default function Sidebar() {
           <Link href="/notifications" className="flex w-full  pb-4 items-center">
             <BellIcon className="h-6 w-6 mr-2" /> Notifications
           </Link>
+        </li>
+        <li className="p-4 border-b border-gray-100/20">
+          <Button
+            onClick={handleLogout}
+            className="flex items-center " variant="secondary"
+          >
+            <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2" />
+            Logout
+          </Button>
+
+
         </li>
       </ul>
 
