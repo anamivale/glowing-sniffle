@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import { useUsers } from "@/hooks/useUsers";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import Link from "next/link";
 
 export default function MembersPage() {
     const [search, setSearch] = useState("");
@@ -42,19 +43,18 @@ export default function MembersPage() {
                         {!loading && !error && filteredMembers.length > 0 ? (
                             filteredMembers.map((member) => (
                                 <div key={member.user_id} className="flex items-center gap-4">
-                                    <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                                        <Image
-                                            src={member.profile_picture || '/default-avatar.png'}
+                                    <div className="">
+                                        <img
+                                            src={member.profile_picture}
                                             alt={`${member.first_name} ${member.last_name}`}
-                                            fill
-                                            className="object-cover"
-                                            sizes="40px"
+                                            className="rounded-full border-4 border-blue-500 w-18 h-18"
+
                                         />
                                     </div>
-                                    <div>
+                                    <Link href={`/profile/${member.user_id}`} className="flex-1">
                                         <p className="font-semibold">{member.first_name} {member.last_name}</p>
                                         <p className="text-sm text-gray-400">{member.Stream}</p>
-                                    </div>
+                                    </Link>
                                 </div>
                             ))
                         ) : !loading && !error ? (
