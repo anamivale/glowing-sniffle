@@ -1,6 +1,7 @@
 "use client";
 
 import { getBrowserSupabase } from "@/lib/supabas";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -65,6 +66,9 @@ export default function LoginPage() {
                         Submit
                     </button>
                 </form>
+                <div     className="text-lg text-blue-600 hover:underline ">
+                    <Link href="forgotpassword">forgot password</Link>
+                </div>
 
                 <div className="mt-6 w-full max-w-sm">
                     <button
