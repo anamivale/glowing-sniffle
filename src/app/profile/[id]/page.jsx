@@ -28,8 +28,8 @@ export default function ProfileCard({ params }) {
             </div>
 
             <div className="flex-1">
-              <p className="text-red-600 mt-1">{profile?.first_name} {profile?.last_name}</p>
-              <p className="text-gray-600 mt-3">{profile?.bio || "No bio available."}</p>
+              <p className=" text-5xl font-black  mt-1">{profile?.first_name} {profile?.last_name}</p>
+              <p className="mt-3">{profile?.bio || "No bio available."}</p>
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-6 text-sm">
                 <p><span className="font-semibold">Year of completion</span> / {profile?.graduation_year}</p>
