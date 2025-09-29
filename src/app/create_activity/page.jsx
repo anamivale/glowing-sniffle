@@ -2,16 +2,13 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 import { useRouter } from 'next/navigation';
-import GetUser from '../components/getUser';
 import { getBrowserSupabase } from '@/lib/supabas';
 import { validateEventDate, validateEventDuration } from '../components/validate_datetime';
+import { useAuth } from '@/hooks/useAuth';
 
 function CreateEvents() {
   const router = useRouter()
   const supabase = getBrowserSupabase()
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const [timeerror, setTimerror] = useState(null)
   const [dateerror, setDAterror] = useState(null)
 
@@ -47,8 +44,9 @@ function CreateEvents() {
       }
     }
 
+
   }
-  GetUser(setError, setLoading, setUser, supabase, router)
+  const {user, loading, error} = useAuth()
   const isDisabled = error||dateerror||timeerror;
 
   const handleSubmit = async (e) => {
