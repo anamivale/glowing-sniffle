@@ -40,7 +40,7 @@ export default function ProfileCard({ params }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 text-center mt-10 bg-gray-50 py-6 px-6 rounded-xl shadow-inner">
+          <div className="grid grid-cols-2 text-center mt-10 bg-gray-50 py-6 px-6 rounded-xl shadow-inner">
             <button className="hover:bg-blue-100 p-4 rounded-lg">
               <h3 className="text-2xl font-bold text-blue-900">12</h3>
               <p className="text-gray-600">Events Created</p>
@@ -48,10 +48,6 @@ export default function ProfileCard({ params }) {
             <button className="hover:bg-blue-100 p-4 rounded-lg">
               <h3 className="text-2xl font-bold text-blue-900">24</h3>
               <p className="text-gray-600">Events Attended</p>
-            </button>
-            <button className="hover:bg-blue-100 p-4 rounded-lg">
-              <h3 className="text-2xl font-bold text-blue-900">8</h3>
-              <p className="text-gray-600">Achievements</p>
             </button>
           </div>
         </div>
