@@ -10,22 +10,20 @@ import {
 } from '@heroicons/react/24/outline';
 import { getBrowserSupabase } from "@/lib/supabas";
 import { useState } from "react";
-import GetUser from "./getUser";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Sidebar() {
   const pathname = (usePathname() || "").replace(/\/$/, "");
   const isEventsPage = pathname === "/events";
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  
   const [open, setOpen] = useState(false);
   const supabase = getBrowserSupabase();
   const router = useRouter();
 
   // Fetch user session
-  GetUser(setError, setLoading, setUser, supabase, router);
+  const {user, loading, error} = useAuth();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
