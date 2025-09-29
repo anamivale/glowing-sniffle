@@ -37,7 +37,7 @@ export default function Sidebar() {
       {/* Mobile toggle button (fixed top-left) */}
       <button
         onClick={() => setOpen(!open)}
-        className="md:hidden fixed top-8 left-4 z-10  rounded-md bg-black text-white"
+        className="md:hidden fixed top-6 right-0 z-50 p-2 rounded-md  text-white"
       >
         {open ? <XMarkIcon className="h-8 w-8" /> : <Bars3Icon className="h-8 w-8" />}
       </button>
@@ -51,7 +51,9 @@ export default function Sidebar() {
           md:translate-x-0 md:static md:w-1/5
         `}
       >
-      
+        <div className="p-4 text-xl font-bold border-b border-gray-700">
+          Alumni Network
+        </div>
 
         <ul className="w-full">
           <li className="p-4 border-b border-gray-100/20">
