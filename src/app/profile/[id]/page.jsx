@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import useProfile from "@/app/components/getProfile"
 import Layout from "@/app/components/Layout"
 import React from "react"
+import { useProfile } from "@/hooks/useUsers"
 
 export default function ProfileCard({ params }) {
   const { id } = React.use(params)
