@@ -35,12 +35,10 @@ function Events() {
                   </div>
 
                   <div className="flex gap-3">
-                    <Button variant="primary" className="flex-1">
+                    <Button variant="secondary" className="flex-1">
                       Going
                     </Button>
-                    <Button variant="secondary" className="flex-1">
-                      Maybe
-                    </Button>
+                   
                     <Button variant="secondary" className="flex-1">
                       Not Going
                     </Button>
