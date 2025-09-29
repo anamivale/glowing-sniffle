@@ -4,7 +4,7 @@ import { HomeIcon, BellIcon, ChatBubbleLeftIcon, UserCircleIcon } from '@heroico
 
 const Navbar = React.memo(() => {
     return (
-        <nav className="dark:text-white p-2 flex border-b justify-between border-gray-100/20">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-black dark:text-white p-2 flex border-b justify-between border-gray-100/20">
             <div className="left">
                 <Link href="/" className="mr-2">
                     <HomeIcon className="h-6 w-6" />
