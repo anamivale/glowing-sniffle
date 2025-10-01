@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getBrowserSupabase } from "@/lib/supabas";
 
-export function useUsers() {
+export function useUsers(userId) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,6 +17,7 @@ export function useUsers() {
         const { data, error } = await supabase
           .from("profiles")
           .select("first_name, last_name, graduation_year, Stream, profile_picture, user_id")
+          .neg("user_id", userId)
           .order("first_name");
 
         if (error) throw error;
