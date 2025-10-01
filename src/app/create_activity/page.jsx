@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import { useRouter } from 'next/navigation';
 import { getBrowserSupabase } from '@/lib/supabas';
@@ -11,6 +11,9 @@ function CreateEvents() {
   const supabase = getBrowserSupabase()
   const [timeerror, setTimerror] = useState(null)
   const [dateerror, setDAterror] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
 
   const [activityType, setActivityType] = useState("")
   const [formData, setFormData] = useState({
@@ -31,7 +34,7 @@ function CreateEvents() {
       const dateErr = validateEventDate(formData.event_date)
       if (dateErr instanceof Error) {
         setDAterror(dateErr.message)
-      } else{
+      } else {
         setDAterror(null)
       }
     }
@@ -46,8 +49,13 @@ function CreateEvents() {
 
 
   }
-  const {user, loading, error} = useAuth()
-  const isDisabled = error||dateerror||timeerror;
+  const { user, autLloading, authError } = useAuth()
+  useEffect(() => {
+    if (authError) {
+      setError(authError)
+    }
+  }, [authError])
+  const isDisabled = error || dateerror || timeerror || autLloading;
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -75,7 +83,7 @@ function CreateEvents() {
     }
   }
 
-  if (loading) {
+  if (loading || autLloading) {
     return (
       <Layout>
         <div className="min-h-screen bg-black text-white flex items-center justify-center">
