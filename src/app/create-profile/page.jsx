@@ -5,6 +5,7 @@ import { getBrowserSupabase } from "@/lib/supabas"
 import { useRouter } from "next/navigation"
 import uploadImage from "../components/uploadImage.jsx"
 import GetUser from "../components/getUser";
+import { useAuth } from "@/hooks/useAuth";
 
 function Page() {
   const router = useRouter()
@@ -22,7 +23,6 @@ function Page() {
     bio: "",
     is_public: true,
   })
-  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [file, setFile] = useState(null)
@@ -33,7 +33,16 @@ function Page() {
     }
   }
 
-  GetUser(setError,setLoading, setUser,supabase, router)
+  const {user, authLoading, authError} = useAuth()
+
+   useEffect(() => {
+      if (authError) {
+        setError(authError)
+      }
+      if (authLoading) {
+        setLoading(true)
+      }
+    }, [authError, authLoading])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target

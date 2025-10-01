@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Layout from "./components/Layout";
+import { useEvents, useUpdates } from "@/hooks/useActivities";
 
 // Lazy load icons to reduce initial bundle size
 const BriefcaseIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.BriefcaseIcon })));
@@ -11,6 +12,8 @@ const HeartIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => 
 const UsersIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.UsersIcon })));
 
 export default function Home() {
+  const { activities, loading, error } = useUpdates()
+  const { events, eLoading, eError, refetch } = useEvents()
 
   return (
     <Layout>
@@ -72,13 +75,13 @@ export default function Home() {
         <section className="py-16 px-8 bg-gray-950">
           <h2 className="text-3xl font-bold text-center mb-8">Upcoming Events</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
-                <h3 className="text-xl font-semibold mb-2">Alumni Reunion {i}</h3>
-                <p className="text-gray-400 mb-4">Date: June {10 + i}, 2025</p>
-                <button className="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition">
+            {!eLoading && events?.slice(0, 3).map((event) => (
+              <div key={event.id} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
+                <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                <p className="text-gray-400 mb-4">Date: {event.event_date}</p>
+                <Link href="/events" className="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition">
                   View Details
-                </button>
+                </Link>
               </div>
             ))}
           </div>
@@ -86,15 +89,14 @@ export default function Home() {
 
         {/* Testimonials */}
         <section className="py-16 px-8 text-center">
-          <h2 className="text-3xl font-bold mb-8">Alumni Stories</h2>
+          <h2 className="text-3xl font-bold mb-8">Updates</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {["Valeria", "James", "Maria"].map((name, i) => (
-              <div key={i} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
+            {!eLoading && activities.slice(0, 3).map((activity) => (
+              <div key={activity.id} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
                 <p className="italic text-gray-300 mb-4">
-                  “Being part of the alumni community has kept me connected and inspired.”
+                  {activity.content}
                 </p>
-                <h4 className="font-semibold">{name}</h4>
-                <p className="text-sm text-gray-500">Class of {2010 + i}</p>
+                <h4 className="font-semibold">{activity.title}</h4>
               </div>
             ))}
           </div>
