@@ -4,6 +4,7 @@ import { getBrowserSupabase } from "@/lib/supabas";
 
 export function useEvents() {
   const [activities, setActivities] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,7 +13,7 @@ export function useEvents() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const supabase = getBrowserSupabase();
         const { data, error } = await supabase
           .from("activities")
@@ -21,11 +22,11 @@ export function useEvents() {
           .order("created_at", { ascending: false });
 
         if (error) throw error;
-        setActivities(data || []);
+        setEvents(data || []);
       } catch (err) {
         console.error("Error fetching events:", err);
         setError("Failed to fetch events. Please try again.");
-        setActivities([]);
+        setEvents([]);
       } finally {
         setLoading(false);
       }
@@ -34,7 +35,7 @@ export function useEvents() {
     fetchEvents();
   }, []);
 
-  return { activities, loading, error, refetch: () => fetchEvents() };
+  return { events, loading, error, refetch: () => fetchEvents() };
 }
 
 export function useUpdates() {
@@ -47,7 +48,7 @@ export function useUpdates() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const supabase = getBrowserSupabase();
         const { data, error } = await supabase
           .from("activities")
