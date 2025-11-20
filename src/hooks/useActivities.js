@@ -1,41 +1,40 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getBrowserSupabase } from "@/lib/supabas";
 
 export function useEvents() {
-  const [activities, setActivities] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchEvents = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const supabase = getBrowserSupabase();
-        const { data, error } = await supabase
-          .from("activities")
-          .select("*")
-          .eq("activity_type", "event")
-          .order("created_at", { ascending: false });
+      const supabase = getBrowserSupabase();
+      const { data, error } = await supabase
+        .from("activities")
+        .select("*")
+        .eq("activity_type", "event")
+        .order("created_at", { ascending: false });
 
-        if (error) throw error;
-        setEvents(data || []);
-      } catch (err) {
-        console.error("Error fetching events:", err);
-        setError("Failed to fetch events. Please try again.");
-        setEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
+      if (error) throw error;
+      setEvents(data || []);
+    } catch (err) {
+      console.error("Error fetching events:", err);
+      setError("Failed to fetch events. Please try again.");
+      setEvents([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { events, loading, error, refetch: () => fetchEvents() };
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
+
+  return { events, loading, error, refetch: fetchEvents };
 }
 
 export function useUpdates() {
@@ -43,32 +42,32 @@ export function useUpdates() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchUpdates = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchUpdates = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const supabase = getBrowserSupabase();
-        const { data, error } = await supabase
-          .from("activities")
-          .select("*")
-          .neq("activity_type", "event")
-          .order("created_at", { ascending: false });
+      const supabase = getBrowserSupabase();
+      const { data, error } = await supabase
+        .from("activities")
+        .select("*")
+        .neq("activity_type", "event")
+        .order("created_at", { ascending: false });
 
-        if (error) throw error;
-        setActivities(data || []);
-      } catch (err) {
-        console.error("Error fetching updates:", err);
-        setError("Failed to fetch updates. Please try again.");
-        setActivities([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUpdates();
+      if (error) throw error;
+      setActivities(data || []);
+    } catch (err) {
+      console.error("Error fetching updates:", err);
+      setError("Failed to fetch updates. Please try again.");
+      setActivities([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { activities, loading, error, refetch: () => fetchUpdates() };
+  useEffect(() => {
+    fetchUpdates();
+  }, [fetchUpdates]);
+
+  return { activities, loading, error, refetch: fetchUpdates };
 }
