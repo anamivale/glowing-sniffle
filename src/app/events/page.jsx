@@ -8,7 +8,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 
 function Events() {
-  const { activities: events, loading, error, refetch } = useEvents();
+  const {  events , loading, error, refetch } = useEvents();
 
   return (
     <Layout>
