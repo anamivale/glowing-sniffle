@@ -3,13 +3,15 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
 import { useUsers } from "@/hooks/useUsers";
+import { useAuth } from "@/hooks/useAuth";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import Link from "next/link";
 
 export default function MembersPage() {
     const [search, setSearch] = useState("");
-    const { users, loading, error, refetch } = useUsers();
+    const { user } = useAuth();
+    const { users, loading, error, refetch } = useUsers(user?.id);
 
     const filteredMembers = useMemo(() => {
         if (!users.length) return [];
