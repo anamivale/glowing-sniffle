@@ -1,10 +1,9 @@
 "use client";
-import {  useState } from "react"
+import { useState, useEffect } from "react"
 import Layout from "../components/Layout"
 import { getBrowserSupabase } from "@/lib/supabas"
 import { useRouter } from "next/navigation"
 import uploadImage from "../components/uploadImage.jsx"
-import GetUser from "../components/getUser";
 import { useAuth } from "@/hooks/useAuth";
 
 function Page() {
