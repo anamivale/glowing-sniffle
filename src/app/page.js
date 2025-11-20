@@ -12,8 +12,8 @@ const HeartIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => 
 const UsersIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.UsersIcon })));
 
 export default function Home() {
-  const { activities, loading, error } = useUpdates()
-  const { events, eLoading, eError, refetch } = useEvents()
+  const { activities, loading: updatesLoading, error: updatesError } = useUpdates()
+  const { events, loading: eventsLoading, error: eventsError, refetch } = useEvents()
 
   return (
     <Layout>
@@ -75,7 +75,7 @@ export default function Home() {
         <section className="py-16 px-8 bg-gray-950">
           <h2 className="text-3xl font-bold text-center mb-8">Upcoming Events</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {!eLoading && events?.slice(0, 3).map((event) => (
+            {!eventsLoading && events?.slice(0, 3).map((event) => (
               <div key={event.id} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
                 <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
                 <p className="text-gray-400 mb-4">Date: {event.event_date}</p>
@@ -91,7 +91,7 @@ export default function Home() {
         <section className="py-16 px-8 text-center">
           <h2 className="text-3xl font-bold mb-8">Updates</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {!eLoading && activities.slice(0, 3).map((activity) => (
+            {!updatesLoading && activities.slice(0, 3).map((activity) => (
               <div key={activity.id} className="bg-gray-900 p-6 rounded-2xl hover:bg-gray-800 transition">
                 <p className="italic text-gray-300 mb-4">
                   {activity.content}
