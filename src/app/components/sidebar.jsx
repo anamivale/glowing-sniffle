@@ -22,8 +22,8 @@ export default function Sidebar() {
   const supabase = getBrowserSupabase();
   const router = useRouter();
 
-  // Fetch user session
-  const {user, loading, error} = useAuth();
+  // Fetch user session (don't redirect - let individual pages handle protection)
+  const {user, loading, error} = useAuth(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
