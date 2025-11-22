@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Layout from "@/app/components/Layout"
+import ProtectedRoute from "@/app/components/ProtectedRoute"
 import React from "react"
 import { useProfile } from "@/hooks/useUsers"
 
@@ -14,6 +15,7 @@ export default function ProfileCard({ params }) {
   }
 
   return (
+    <ProtectedRoute>
     <Layout>
       {error && <p className="text-red-500">Error: {error.message}</p>}
       {!error && !profile && <p className="text-gray-500">Profile not found.</p>}
@@ -53,5 +55,6 @@ export default function ProfileCard({ params }) {
         </div>
       )}
     </Layout>
+    </ProtectedRoute>
   )
 }
