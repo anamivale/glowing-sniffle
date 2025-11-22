@@ -1,92 +1,100 @@
 "use client";
+
 import { getBrowserSupabase } from "@/lib/supabas";
+import Link from "next/link";
 import { useState } from "react";
 
-function ForgotPassword() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const supabase = getBrowserSupabase();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    setMessage("");
+    setLoading(true);
+    setError(null);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/resetpassword`, 
+      redirectTo: `${window.location.origin}/resetpassword`,
     });
 
     if (error) {
-      setMessage(error.message);
-      alert(error.message);
+      setError(error.message);
     } else {
-      const successMsg = "Password reset email sent! Check your inbox.";
-      setMessage(successMsg);
-      alert(successMsg); 
+      setSuccess(true);
     }
+    setLoading(false);
   };
 
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col bg-gray-50 group/design-root overflow-x-hidden">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-md shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <div className="space-y-2">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Forgot your password?
-              </h1>
-              <p className="text-gray-500 dark:text-gray-400">
-                Enter your email and we'll send you a link to reset your password.
-              </p>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Forgot Password?</h1>
+          <p className="text-gray-400">We'll send you a reset link</p>
+        </div>
+
+        <div className="bg-black border border-white rounded-2xl p-8">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-lg mb-4 text-sm">
+              {error}
             </div>
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleForgotPassword}
-            >
+          )}
+
+          {success ? (
+            <div className="text-center py-4">
+              <div className="bg-green-500/10 border border-green-500 text-green-500 p-4 rounded-lg mb-4">
+                <p className="font-semibold mb-2">Check your email!</p>
+                <p className="text-sm">We've sent you a password reset link.</p>
+              </div>
+              <Link href="/login" className="text-white hover:underline font-semibold">
+                Back to Sign In
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleForgotPassword} className="space-y-5">
               <div>
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  htmlFor="email"
-                >
-                  Your email
+                <label htmlFor="email" className="block text-sm font-semibold mb-2">
+                  Email
                 </label>
                 <input
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                  id="email"
-                  name="email"
                   type="email"
-                  placeholder="name@company.com"
+                  id="email"
+                  placeholder="Enter your email"
+                  className="w-full bg-black border border-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-white placeholder-gray-500"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)} 
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
+
               <button
-                className="w-full text-white bg-[var(--primary-color)] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="submit"
+                disabled={loading}
+                className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-gray-200 disabled:bg-gray-500 disabled:cursor-not-allowed transition"
               >
-                Send reset link
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
+                    Sending...
+                  </div>
+                ) : (
+                  'Send Reset Link'
+                )}
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+
+              <p className="text-center text-sm text-gray-400">
                 Remember your password?{" "}
-                <a
-                  className="font-medium text-[var(--primary-color)] hover:underline dark:text-blue-500"
-                  href="/login"
-                >
+                <Link href="/login" className="text-white hover:underline font-semibold">
                   Sign in
-                </a>
+                </Link>
               </p>
             </form>
-
-            {message && (
-              <p className="text-sm text-center mt-2 text-gray-600 dark:text-gray-300">
-                {message}
-              </p>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
-export default ForgotPassword;
