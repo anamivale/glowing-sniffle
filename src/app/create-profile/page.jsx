@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Layout from "../components/Layout"
+import ProtectedRoute from "../components/ProtectedRoute"
 import { getBrowserSupabase } from "@/lib/supabas"
 import { useRouter } from "next/navigation"
 import uploadImage from "../components/uploadImage.jsx"
@@ -22,7 +23,7 @@ function Page() {
     bio: "",
     is_public: true,
   })
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [file, setFile] = useState(null)
 
@@ -32,16 +33,7 @@ function Page() {
     }
   }
 
-  const {user, authLoading, authError} = useAuth()
-
-   useEffect(() => {
-      if (authError) {
-        setError(authError)
-      }
-      if (authLoading) {
-        setLoading(true)
-      }
-    }, [authError, authLoading])
+  const {user} = useAuth(false)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -81,56 +73,8 @@ function Page() {
     }
   }
 
-  if (loading) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p>Loading...</p>
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-
-  if (error) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-red-500 mb-4">{error}</p>
-            <button
-              onClick={() => router.push('/profile')}
-              className="bg-white text-black hover:bg-gray-200 px-4 py-2 rounded"
-            >
-              Retry
-            </button>
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-
-  if (!user) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="text-center">
-            <p className="mb-4">Please log in to access your profile.</p>
-            <button
-              onClick={() => router.push('/login')}
-              className="bg-white text-black hover:bg-gray-200 px-4 py-2 rounded"
-            >
-              Go to Login
-            </button>
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-
   return (
+    <ProtectedRoute>
     <Layout>
       <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
         <div className="w-full max-w-2xl bg-black border border-white rounded-2xl p-8 shadow-lg">
@@ -199,9 +143,16 @@ function Page() {
               )}
             </button>
           </form>
+
+          {error && (
+            <div className="mt-4 bg-red-500 text-white p-3 rounded text-center">
+              {error}
+            </div>
+          )}
         </div>
       </div>
     </Layout>
+    </ProtectedRoute>
   )
 }
 

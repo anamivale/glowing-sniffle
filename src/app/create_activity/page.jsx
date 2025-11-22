@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Layout from '../components/Layout'
+import ProtectedRoute from '../components/ProtectedRoute'
 import { useRouter } from 'next/navigation';
 import { getBrowserSupabase } from '@/lib/supabas';
 import { validateEventDate, validateEventDuration } from '../components/validate_datetime';
@@ -49,13 +50,8 @@ function CreateEvents() {
 
 
   }
-  const { user, autLloading, authError } = useAuth()
-  useEffect(() => {
-    if (authError) {
-      setError(authError)
-    }
-  }, [authError])
-  const isDisabled = error || dateerror || timeerror || autLloading;
+  const { user } = useAuth(false)
+  const isDisabled = error || dateerror || timeerror;
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -83,31 +79,8 @@ function CreateEvents() {
     }
   }
 
-  if (loading || autLloading) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p>Loading...</p>
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-
-  if (error) {
-    <Layout>
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <p>{error}</p>
-          <button onClick={() => router.push('/create-activity')}> Retry</button>
-        </div>
-      </div>
-    </Layout>
-  }
-
   return (
+    <ProtectedRoute>
     <Layout>
       <div className="flex justify-center items-center min-h-screen bg-black text-white">
         <div className="w-full max-w-lg p-8 rounded-2xl shadow-lg bg-black border border-white">
@@ -225,9 +198,16 @@ function CreateEvents() {
               </button>
             </div>
           </form>
+
+          {error && (
+            <div className="mt-4 bg-red-500 text-white p-3 rounded text-center">
+              {error}
+            </div>
+          )}
         </div>
       </div>
     </Layout>
+    </ProtectedRoute>
   )
 }
 

@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
+import ProtectedRoute from "../components/ProtectedRoute";
 import { useUsers } from "@/hooks/useUsers";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -10,7 +11,7 @@ import Link from "next/link";
 
 export default function MembersPage() {
     const [search, setSearch] = useState("");
-    const { user } = useAuth();
+    const { user } = useAuth(false);
     const { users, loading, error, refetch } = useUsers(user?.id);
 
     const filteredMembers = useMemo(() => {
@@ -22,6 +23,7 @@ export default function MembersPage() {
     }, [users, search]);
 
     return (
+        <ProtectedRoute>
         <Layout>
             <main className="min-h-screen bg-black text-white flex min-w-xl">
                 <div className=" w-full max-w-md rounded-2xl shadow-lg p-6">
@@ -66,5 +68,6 @@ export default function MembersPage() {
                 </div>
             </main>
         </Layout>
+        </ProtectedRoute>
     );
 }
