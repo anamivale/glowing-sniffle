@@ -1,6 +1,7 @@
 'use client';
 import React from 'react'
 import Layout from '../components/Layout'
+import ProtectedRoute from '../components/ProtectedRoute'
 import { useEvents } from '@/hooks/useActivities';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -11,6 +12,7 @@ function Events() {
   const {  events , loading, error, refetch } = useEvents();
 
   return (
+    <ProtectedRoute>
     <Layout>
       <div className="min-h-screen bg-black text-white py-10 px-5">
         <h1 className="text-3xl font-bold mb-8 text-center">Events</h1>
@@ -50,6 +52,7 @@ function Events() {
         </div>
       </div>
     </Layout>
+    </ProtectedRoute>
   )
 }
 
