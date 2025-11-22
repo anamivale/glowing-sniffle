@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Layout from "./components/Layout";
 import { useEvents, useUpdates } from "@/hooks/useActivities";
+import { useAuth } from "@/hooks/useAuth";
 
 // Lazy load icons to reduce initial bundle size
 const BriefcaseIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => ({ default: mod.BriefcaseIcon })));
@@ -14,6 +15,7 @@ const UsersIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => 
 export default function Home() {
   const { activities, loading: updatesLoading, error: updatesError } = useUpdates()
   const { events, loading: eventsLoading, error: eventsError, refetch } = useEvents()
+  const {user} = useAuth(false);
 
   return (
     <Layout>
@@ -27,11 +29,13 @@ export default function Home() {
             and support the next generation of leaders.
           </p>
           <div className="flex gap-4">
+            { user? null :
             <Link href="/register">
               <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
                 Join Now
               </button>
             </Link>
+            }
             <Link href="/events">
               <button className="px-6 py-3 border border-white rounded-xl hover:bg-white hover:text-black transition">
                 View Events
