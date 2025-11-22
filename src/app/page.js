@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, use } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Layout from "./components/Layout";
@@ -15,7 +15,7 @@ const UsersIcon = dynamic(() => import("@heroicons/react/24/solid").then(mod => 
 export default function Home() {
   const { activities, loading: updatesLoading, error: updatesError } = useUpdates()
   const { events, loading: eventsLoading, error: eventsError, refetch } = useEvents()
-  const {user} = useAuth(false);
+  const { user } = useAuth(false);
 
   return (
     <Layout>
@@ -29,12 +29,12 @@ export default function Home() {
             and support the next generation of leaders.
           </p>
           <div className="flex gap-4">
-            { user? null :
-            <Link href="/register">
-              <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
-                Join Now
-              </button>
-            </Link>
+            {user ? null :
+              <Link href="/register">
+                <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
+                  Join Now
+                </button>
+              </Link>
             }
             <Link href="/events">
               <button className="px-6 py-3 border border-white rounded-xl hover:bg-white hover:text-black transition">
@@ -110,11 +110,13 @@ export default function Home() {
         <footer className="py-16 bg-gradient-to-t from-black to-gray-900 text-center">
           <h2 className="text-3xl font-bold mb-6">Join the Legacy Today</h2>
           <p className="text-gray-400 mb-6">Be part of a community that never forgets its roots.</p>
-          <Link href="/register">
-            <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
-              Register Now
-            </button>
-          </Link>
+          {user ? null :
+            <Link href="/register">
+              <button className="px-6 py-3 bg-white text-black rounded-xl shadow-lg hover:bg-gray-200 transition">
+                Register Now
+              </button>
+            </Link>
+          }
         </footer>
       </main>
 
