@@ -4,6 +4,7 @@ import Image from "next/image"
 import Layout from "@/app/components/Layout"
 import ProtectedRoute from "@/app/components/ProtectedRoute"
 import React from "react"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { useProfile } from "@/hooks/useUsers"
 
 export default function ProfileCard({ params }) {
@@ -14,7 +15,7 @@ export default function ProfileCard({ params }) {
 
     return (
       <Layout>
-        <p>Loading...</p>
+        <LoadingSpinner size="lg" text="Loading profile..." />
       </Layout>
     )
 
