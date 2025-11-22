@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "./search";
 import {
   HomeIcon, BellIcon, ChatBubbleLeftIcon,
-  UserIcon, UserGroupIcon, PlusIcon, ArrowRightOnRectangleIcon,
+  UserIcon, UserGroupIcon, PlusIcon, ArrowRightOnRectangleIcon,ArrowLeftOnRectangleIcon,
   Bars3Icon, XMarkIcon
 } from '@heroicons/react/24/outline';
 import { getBrowserSupabase } from "@/lib/supabas";
@@ -17,13 +17,13 @@ export default function Sidebar() {
   const pathname = (usePathname() || "").replace(/\/$/, "");
   const isEventsPage = pathname === "/events";
 
-  
+
   const [open, setOpen] = useState(false);
   const supabase = getBrowserSupabase();
   const router = useRouter();
 
   // Fetch user session (don't redirect - let individual pages handle protection)
-  const {user, loading, error} = useAuth(false);
+  const { user, loading, error } = useAuth(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -95,10 +95,20 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="p-4 border-b border-gray-100/20">
-            <Button onClick={handleLogout} className="flex items-center" variant="secondary">
-              <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2" />
-              Logout
-            </Button>
+            {
+              user ?
+
+                <Button onClick={handleLogout} className="flex items-center" variant="secondary">
+                  <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2" />
+                  Logout
+                </Button>
+                :
+                <Link href="/login" className="flex items-center">
+                  <ArrowLeftOnRectangleIcon className="h-6 w-6 mr-2" />
+                  Login
+                </Link>
+
+            }
           </li>
         </ul>
       </aside>
