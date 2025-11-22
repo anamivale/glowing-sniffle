@@ -22,14 +22,14 @@ export function useAuth(redirectOnNoAuth = true) {
         if (error) {
           setError("Failed to get user session");
           if (redirectOnNoAuth) {
-            router.push("/");
+            router.push("/login");
           }
           return;
         }
 
         if (!session) {
           if (redirectOnNoAuth) {
-            router.push("/");
+            router.push("/login");
           }
           return;
         }
@@ -39,7 +39,7 @@ export function useAuth(redirectOnNoAuth = true) {
         console.error("Auth error:", err);
         setError("An unexpected error occurred");
         if (redirectOnNoAuth) {
-          router.push("/");
+          router.push("/login");
         }
       } finally {
         setLoading(false);
@@ -52,7 +52,7 @@ export function useAuth(redirectOnNoAuth = true) {
         if (event === "SIGNED_OUT" || !session) {
           setUser(null);
           if (redirectOnNoAuth) {
-            router.push("/");
+            router.push("/login");
           }
         } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
           setUser(session.user);
