@@ -24,9 +24,8 @@ export async function CreateConversation(currentuserId, otherUserId) {
 
 export async function getConversations() {
     const supabase = getBrowserSupabase()
-
     const { data: conversations } = await supabase
-        .from('conveersations')
+        .from('conversations')
         .select(`*,
             messages (
             content
@@ -35,6 +34,7 @@ export async function getConversations() {
             )
         `)
         .or(`user1_id.eq.${currentUserId},user2_id.eq.${currentUserId}`)
-        .order('updated_at', { ascending: false })
+        .limit(1, { foreignTable: 'messages' })
+        .order('updated_at', { ascending: false, foreignTable: 'messages' })
 
 }
