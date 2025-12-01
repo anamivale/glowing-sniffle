@@ -25,16 +25,22 @@ export default function MembersPage() {
     return (
         <ProtectedRoute>
         <Layout>
-            <main className="min-h-screen bg-black text-white flex min-w-xl">
-                <div className=" w-full max-w-md rounded-2xl shadow-lg p-6">
+            <main className="min-h-screen bg-black text-white py-6 px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-7xl mx-auto">
+                    {/* Page Header */}
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold mb-2">Network</h1>
+                        <p className="text-gray-400">Connect with fellow alumni</p>
+                    </div>
+
                     {/* Search Bar */}
-                    <div className="mb-6">
+                    <div className="mb-6 max-w-2xl">
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search members..."
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
@@ -42,27 +48,35 @@ export default function MembersPage() {
                     {loading && <LoadingSpinner text="Loading members..." />}
                     {error && <ErrorMessage message={error} onRetry={refetch} />}
 
-                    {/* Members List */}
-                    <div className="space-y-4">
+                    {/* Members Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                         {!loading && !error && filteredMembers.length > 0 ? (
                             filteredMembers.map((member) => (
-                                <div key={member.user_id} className="flex items-center gap-4">
-                                    <div className="">
+                                <Link
+                                    key={member.user_id}
+                                    href={`/profile/${member.user_id}`}
+                                    className="bg-gray-900 rounded-xl p-6 hover:bg-gray-800 transition-all duration-200 border border-gray-800 hover:border-gray-700"
+                                >
+                                    <div className="flex flex-col items-center text-center">
                                         <img
                                             src={member.profile_picture}
                                             alt={`${member.first_name} ${member.last_name}`}
-                                            className="rounded-full border-4 border-blue-500 w-18 h-18"
-
+                                            className="rounded-full border-4 border-blue-500 w-24 h-24 object-cover mb-4"
                                         />
-                                    </div>
-                                    <Link href={`/profile/${member.user_id}`} className="flex-1">
-                                        <p className="font-semibold">{member.first_name} {member.last_name}</p>
+                                        <p className="font-semibold text-lg mb-1">
+                                            {member.first_name} {member.last_name}
+                                        </p>
                                         <p className="text-sm text-gray-400">{member.Stream}</p>
-                                    </Link>
-                                </div>
+                                        {member.graduation_year && (
+                                            <p className="text-xs text-gray-500 mt-1">Class of {member.graduation_year}</p>
+                                        )}
+                                    </div>
+                                </Link>
                             ))
                         ) : !loading && !error ? (
-                            <p className="text-gray-400 text-center">No members found</p>
+                            <div className="col-span-full text-center py-12">
+                                <p className="text-gray-400">No members found</p>
+                            </div>
                         ) : null}
                     </div>
                 </div>
