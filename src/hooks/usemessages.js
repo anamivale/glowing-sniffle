@@ -14,15 +14,15 @@ export async function getConvMessages(conversation_id) {
 }
 
 
-export async function insertMessage() {
+export async function insertMessage(conversation_id, sender_id, content) {
     const supabase = getBrowserSupabase()
-    const {  error } = await supabase
+    const { data, error } = await supabase
         .from('messages')
         .insert({
             conversation_id: conversation_id,
-            sender_id: currentUserId,
+            sender_id: sender_id,
             content: content
 
         })
-    return {  error }
+    return {data,  error }
 }

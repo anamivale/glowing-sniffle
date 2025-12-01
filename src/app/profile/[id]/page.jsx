@@ -7,8 +7,16 @@ import React, { useState } from "react"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { useProfile } from "@/hooks/useUsers"
 import { useProfileEvents } from "@/hooks/useProfileEvents"
+import { useRouter } from "next/navigation"
+import { CreateConversation } from "@/hooks/useConversations"
+import { useAuth } from "@/hooks/useAuth"
+import { MessageCircle } from 'lucide-react';
+
 
 export default function ProfileCard({ params }) {
+  const { user } = useAuth()
+  const currentUserId = user?.id
+
   const { id } = React.use(params)
   const { profile, loading, error } = useProfile(id)
   const {
@@ -18,7 +26,8 @@ export default function ProfileCard({ params }) {
     attendedCount,
     loading: eventsLoading
   } = useProfileEvents(id)
-
+  const [isCreatingConv, setIsCreatingConv] = useState(false)
+  const router = useRouter();
   const [showCreated, setShowCreated] = useState(false)
   const [showAttended, setShowAttended] = useState(false)
 
@@ -28,6 +37,22 @@ export default function ProfileCard({ params }) {
         <LoadingSpinner size="lg" text="Loading profile..." />
       </Layout>
     )
+  }
+
+  const handleMessageClick = async () => {
+    try {
+      setIsCreatingConv(true)
+      const conversation = await CreateConversation(currentUserId, id)
+      router.push(`/messages/conversationId = ${conversation.id}`)
+    } catch (error) {
+      console.error("Error creating conversation:", error)
+      alert("Failed to start conversation. Please try again.")
+
+    } finally {
+      setIsCreatingConv(false)
+
+    }
+
   }
 
   return (
@@ -48,6 +73,19 @@ export default function ProfileCard({ params }) {
               <div className="flex-1">
                 <p className=" text-5xl font-black  mt-1">{profile?.first_name} {profile?.last_name}</p>
                 <p className="mt-3">{profile?.bio || "No bio available."}</p>
+                {/* Message Button - Only show if not viewing own profile */}
+                {currentUserId !== id && (
+                  <button
+                    onClick={handleMessageClick}
+                    disabled={isCreatingConv}
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
+                  >
+                    <MessageCircle size={20} />
+                    <span className="font-semibold">
+                      {isCreatingConv ? "Loading..." : "Message"}
+                    </span>
+                  </button>
+                )}
 
                 <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-6 text-sm">
                   <p><span className="font-semibold">Year of completion</span> / {profile?.graduation_year}</p>
