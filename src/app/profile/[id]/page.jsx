@@ -43,7 +43,7 @@ export default function ProfileCard({ params }) {
     try {
       setIsCreatingConv(true)
       const conversation = await CreateConversation(currentUserId, id)
-      router.push(`/messages/conversationId = ${conversation.id}`)
+      router.push(`/messages?conversationId = ${conversation.id}`)
     } catch (error) {
       console.error("Error creating conversation:", error)
       alert("Failed to start conversation. Please try again.")

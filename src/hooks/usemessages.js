@@ -22,7 +22,9 @@ export async function insertMessage(conversation_id, sender_id, content) {
             conversation_id: conversation_id,
             sender_id: sender_id,
             content: content
-
         })
-    return {data,  error }
+        .select()
+        .single()
+
+    return { data, error }
 }
