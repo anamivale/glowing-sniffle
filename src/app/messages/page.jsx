@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, Suspense, useCallback } from 'react';
-import { Send, ArrowLeft, MoreVertical, Search, Paperclip, Smile } from 'lucide-react';
+import { PaperAirplaneIcon, ArrowLeftIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, PaperClipIcon, FaceSmileIcon } from '@heroicons/react/24/solid';
 import { getConvMessages, insertMessage } from '@/hooks/usemessages';
 import { useConversationsWithProfiles } from '@/hooks/useConversationsWithProfiles';
 import { useRealtimeMessages, useRealtimeConversations } from '@/hooks/useRealtimeMessages';
@@ -367,13 +367,13 @@ const ChatContent = () => {
                   className="hover:bg-gray-800 p-2 rounded-full transition"
                   aria-label="Search"
                 >
-                  <Search size={18} className="sm:w-5 sm:h-5" />
+                  <MagnifyingGlassIcon size={18} className="sm:w-5 sm:h-5" />
                 </button>
                 <button
                   className="hover:bg-gray-800 p-2 rounded-full transition"
                   aria-label="More options"
                 >
-                  <MoreVertical size={18} className="sm:w-5 sm:h-5" />
+                  <EllipsisVerticalIcon className="h-5 w-5" />
                 </button>
               </div>
             </div>
@@ -414,7 +414,7 @@ const ChatContent = () => {
                   className="md:hidden hover:bg-gray-800 p-2 rounded-full transition flex-shrink-0"
                   aria-label="Go back"
                 >
-                  <ArrowLeft size={20} />
+                  <ArrowLeftIcon className="h-5 w-5" />
                 </button>
                 <UserAvatar
                   profile={otherUserProfile}
@@ -430,13 +430,13 @@ const ChatContent = () => {
                   className="hover:bg-gray-800 p-2 rounded-full transition flex-shrink-0"
                   aria-label="Search in conversation"
                 >
-                  <Search size={18} className="sm:w-5 sm:h-5" />
+                  <MagnifyingGlassIcon size={18} className="sm:w-5 sm:h-5" />
                 </button>
                 <button
                   className="hover:bg-gray-800 p-2 rounded-full transition flex-shrink-0"
                   aria-label="More options"
                 >
-                  <MoreVertical size={18} className="sm:w-5 sm:h-5" />
+                  <EllipsisVerticalIcon className="sm:w-5 sm:h-5" />
                 </button>
               </div>
 
@@ -552,14 +552,14 @@ const ChatContent = () => {
                     className="hidden sm:flex hover:bg-gray-800 p-2 rounded-full transition text-gray-400 hover:text-white"
                     aria-label="Add emoji"
                   >
-                    <Smile size={20} className="sm:w-6 sm:h-6" />
+                    <FaceSmileIcon className="sm:w-6 sm:h-6" />
                   </button>
                   <button
                     type="button"
                     className="hidden sm:flex hover:bg-gray-800 p-2 rounded-full transition text-gray-400 hover:text-white"
                     aria-label="Attach file"
                   >
-                    <Paperclip size={20} className="sm:w-6 sm:h-6" />
+                    <PaperClipIcon className="sm:w-6 sm:h-6" />
                   </button>
                   <input
                     type="text"
@@ -579,7 +579,7 @@ const ChatContent = () => {
                     }`}
                     aria-label="Send message"
                   >
-                    <Send size={18} className="sm:w-5 sm:h-5" />
+                    <PaperAirplaneIcon className="sm:w-5 sm:h-5" />
                   </button>
                 </form>
               </div>

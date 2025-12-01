@@ -10,7 +10,7 @@ import { useProfileEvents } from "@/hooks/useProfileEvents"
 import { useRouter } from "next/navigation"
 import { CreateConversation } from "@/hooks/useConversations"
 import { useAuth } from "@/hooks/useAuth"
-import { MessageCircle } from 'lucide-react';
+import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/solid';
 
 
 export default function ProfileCard({ params }) {
@@ -80,7 +80,7 @@ export default function ProfileCard({ params }) {
                     disabled={isCreatingConv}
                     className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
                   >
-                    <MessageCircle size={20} />
+                    <ChatBubbleOvalLeftEllipsisIcon className="h-5 w-5" />
                     <span className="font-semibold">
                       {isCreatingConv ? "Loading..." : "Message"}
                     </span>
